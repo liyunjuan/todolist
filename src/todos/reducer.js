@@ -1,13 +1,12 @@
 import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from './actionTypes';
-import { actions } from '.';
 
-export default(state = [], actions) => {
-    switch(actions.type) {
+export default(state = [], action) => {
+    switch(action.type) {
         case ADD_TODO: {
             return [
                 {
-                    id: actions.id,
-                    text: actions.text,
+                    id: action.id,
+                    text: action.text,
                     completed: false
                 },
                 ...state
@@ -15,12 +14,20 @@ export default(state = [], actions) => {
         }
         case TOGGLE_TODO: {
             return state.map((todoItem) => {
-                if(todoItem.id === actions.id) {
+                if(todoItem.id === action.id) {
                     return {...todoItem, completed: !todoItem.completed}
                 }else {
                     return todoItem;
                 }
             })
+        }
+        case REMOVE_TODO: {
+            return state.filter((todoItem) => {
+                return todoItem.id !== action.id
+            })
+        }   
+        default: {
+            return state;
         }
     }
 }
