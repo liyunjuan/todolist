@@ -1,6 +1,10 @@
 import { FilterTypes } from '../../constants.js'
+import React from 'react';
+import Link from './link.js'
 
-const Filter = () => {
+import "./style.css"
+
+const Filters = () => {
     return (
         <p className='filters'>
             <Link filter={FilterTypes.ALL}>{FilterTypes.ALL}</Link>
@@ -10,25 +14,5 @@ const Filter = () => {
     );
 };
 
-const Link = ({ active, children, onClick }) => {
-    if(active) {
-        return (
-            <b className="filter selected">{children}</b>
-        )
-    }else {
-        return (
-            <a 
-                href='#'
-                className="filter not-selected"
-                onClick={
-                    (ev) => {
-                        ev.preventDefault();
-                        onClick()
-                    }
-                }
-            >
-                {children}
-            </a>
-        )
-    }
-}
+export default Filters;
+

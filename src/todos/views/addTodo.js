@@ -1,30 +1,43 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux';
+import { addTodo } from '../actions.js'
 
-export class AddTodo extends  React.Component {
-    constructor(props) {
-        super(props);
-    }
+class AddTodo extends  React.Component {
+    constructor(props, context) {
+        super(props, context);
 
-    refInput(node) {
-        this.input = node;
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onInputChanged = this.onInputChanged.bind(this);
+
+        this.state = {
+            value: ''
+        }
     }
 
     onSubmit(ev) {
         ev.preventDefault();
-        const input = this.input;
-        if(!input.value.trim()) {
+        const inputValue = this.state.value;
+        if(!inputValue.trim()) {
             return;
         }
 
-        this.props.onAdd(input.value);
-        input.value = '';
+        this.props.onAdd(inputValue);
+        this.setState({
+            value: ''
+        })
+    }
+
+    onInputChanged(event) {
+        this.setState({
+            value: event.target.value
+        })
     }
 
     render() {
         return (
             <div className="add-todo">
                 <form onSubmit={this.onSubmit}>
-                    <input className="new-todo" ref={this.refInput} />
+                    <input className="new-todo" onChange={this.onInputChanged} value={this.state.value} />
                     <button className="add-todo" type='submit'>
                         添加
                     </button>
@@ -33,3 +46,17 @@ export class AddTodo extends  React.Component {
         )
     }
 }
+
+AddTodo.propTypes = {
+    onAdd: PropTypes.func.isRequired
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onAdd: (text) => {
+            dispatch(addTodo(text));
+        }
+    }
+};
+
+export default connect(null, mapDispatchToProps)(AddTodo);
