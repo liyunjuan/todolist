@@ -41,3 +41,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 export default connect(null, mapDispatchToProps)(TodoItem);
+
+/**
+ * 为什么改造这个文件可以优化：
+ * 1、最开始是一个无状态的组件，即使当前组件没有变化，也会重新计算一遍，浪费了这计算的时间
+ * 2、所以改成class组件，通过redux取数据，redux会帮助我们缓存结果，达到减少计算的过程。
+ * 3、所以可以优化
+ */
